@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +38,9 @@ public class LawyerAuthController {
                 request.getEmail(),
                 request.getPassword(),
                 request.getPhone(),
-                request.getGender()
+                request.getGender(),
+                request.getAddress(),
+                request.getBio()
         );
         return ResponseEntity.ok("User registered successfully with ID: " + newLawyer.getLawyerid());
     }
@@ -109,7 +112,9 @@ public class LawyerAuthController {
                     request.get("firstname"),
                     request.get("lastname"),
                     request.get("phone"),
-                    request.get("gender")
+                    request.get("gender"),
+                    request.get("address"),
+                    request.get("bio")
             );
 
             Map<String, Object> response = new HashMap<>();
@@ -154,4 +159,32 @@ public class LawyerAuthController {
         response.put("role", session.getAttribute(ROLE_KEY));
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/getlawyer")
+    public ResponseEntity<?> getAllLawyers() {
+        try {
+            List<Lawyer> lawyers = lawyerService.getAllLawyer();
+            return ResponseEntity.ok(lawyers);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Unable to fetch lawyers", "details", e.getMessage()));
+        }
+    }
+
+    @GetMapping("/getlawyer-by-email/{email}")
+    public ResponseEntity<?> getLawyerByEmail(@PathVariable String email) {
+        try {
+            Lawyer lawyer = lawyerService.findByEmail(email);
+            if (lawyer == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("error", "Lawyer not found with email: " + email));
+            }
+            return ResponseEntity.ok(lawyer);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", e.getMessage()));
+        }
+    }
+
+
 }

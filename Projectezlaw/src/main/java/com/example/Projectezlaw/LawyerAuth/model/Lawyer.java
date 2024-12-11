@@ -16,8 +16,10 @@ public class Lawyer {
     private String role;
     private String phone;
     private String gender;
+    private String address;
+    private String bio;
 
-    public Lawyer(String lawyerFirstname, String lawyerLastname, String lawyerEmail, String hashedPassword, String role, String phone, String gender) {
+    public Lawyer(String lawyerFirstname, String lawyerLastname, String lawyerEmail, String hashedPassword, String role, String phone, String gender, String address, String bio) {
         this.lawyerFirstname = lawyerFirstname;
         this.lawyerLastname = lawyerLastname;
         this.lawyerEmail = lawyerEmail;
@@ -25,6 +27,8 @@ public class Lawyer {
         this.role = role;
         this.phone = phone;
         this.gender = gender;
+        this.address = address;
+        this.bio = bio;
     }
 
     public void setLawyerid(String lawyerid){
@@ -89,5 +93,21 @@ public class Lawyer {
 
     public void setGender(String gender){
         this.gender = gender;
+    }
+
+    public String getAddress(){
+        return address;
+    }
+
+    public void setAddress(String address){
+        this.address = address;
+    }
+
+    public String getBio(){
+        return bio;
+    }
+
+    public void setBio(String bio){
+        this.bio = bio;
     }
 }

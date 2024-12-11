@@ -8,6 +8,8 @@ public class LawyerSignuprequest {
     private String password;
     private String phone;
     private String gender;
+    private String address;
+    private String bio;
 
     public String getFirstname() {
         return Lawyerfirstname;
@@ -55,5 +57,21 @@ public class LawyerSignuprequest {
 
     public void setGender(String gender){
         this.gender = gender;
+    }
+
+    public String getAddress(){
+        return address;
+    }
+
+    public void setAddress(String address){
+        this.address = address;
+    }
+
+    public String getBio(){
+        return bio;
+    }
+
+    public void setBio(String bio){
+        this.bio = bio;
     }
 }
