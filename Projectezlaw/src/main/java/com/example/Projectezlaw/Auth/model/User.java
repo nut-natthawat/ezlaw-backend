@@ -15,8 +15,9 @@ public class User {
     private String role;
     private String phone;
     private String gender;
+    private String profileImageUrl;
 
-    public User(String firstname, String lastname, String email, String hashedPassword, String role, String phone, String gender) {
+    public User(String firstname, String lastname, String email, String hashedPassword, String role, String phone, String gender,String profileImageUrl) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
@@ -24,6 +25,7 @@ public class User {
         this.role = role;
         this.phone = phone;
         this.gender = gender;
+        this.profileImageUrl = profileImageUrl;
     }
     public String getId() {
         return Userid;
@@ -83,5 +85,13 @@ public class User {
 
     public void setGender(String gender){
         this.gender = gender;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 }

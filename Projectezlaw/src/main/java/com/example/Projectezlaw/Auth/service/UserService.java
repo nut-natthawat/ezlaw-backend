@@ -15,14 +15,14 @@ public class UserService {
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public User register(String firstname,String lastname,String email,String password,String phone,String gender) {
+    public User register(String firstname,String lastname,String email,String password,String phone,String gender,String profileImageUrl) {
         if(userRepository.findByEmail(email) != null){
             throw new RuntimeException("Email already exists");
         }
 
         String hashedPassword = passwordEncoder.encode(password);
 
-        User user = new User(firstname,lastname,email,hashedPassword,"user",phone,gender);
+        User user = new User(firstname,lastname,email,hashedPassword,"user",phone,gender,profileImageUrl);
         return userRepository.save(user);
     }
 
@@ -47,7 +47,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public User updateProfile(String email,String firstname,String lastname,String phone,String gender){
+    public User updateProfile(String email,String firstname,String lastname,String phone,String gender,String profileImageUrl){
         User user = userRepository.findByEmail(email);
         if(user == null){
             throw new RuntimeException("User not found");
@@ -57,6 +57,7 @@ public class UserService {
         user.setLastname(lastname);
         user.setPhone(phone);
         user.setGender(gender);
+        user.setProfileImageUrl(profileImageUrl);
 
         return userRepository.save(user);
     }

@@ -1,16 +1,13 @@
 package com.example.Projectezlaw.Auth.controller;
 
-import com.example.Projectezlaw.Auth.repository.UserRepository;
 import com.example.Projectezlaw.Auth.dto.SignUpRequest;
 import com.example.Projectezlaw.Auth.model.User;
 import com.example.Projectezlaw.Auth.service.UserService;
-import org.apache.tomcat.util.http.parser.HttpParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -36,7 +33,8 @@ public class AuthController {
                 request.getEmail(),
                 request.getPassword(),
                 request.getPhone(),
-                request.getGender()
+                request.getGender(),
+                request.getProfileImageUrl()
         );
         return ResponseEntity.ok("User registered successfully with ID: " + user.getId());
     }
@@ -115,7 +113,8 @@ public class AuthController {
                     request.get("firstname"),
                     request.get("lastname"),
                     request.get("phone"),
-                    request.get("gender")
+                    request.get("gender"),
+                    request.get("profileImageUrl")
             );
 
             Map<String, Object> response = new HashMap<>();
@@ -124,6 +123,7 @@ public class AuthController {
             response.put("lastname", updateUser.getLastname());
             response.put("phone", updateUser.getPhone());
             response.put("gender",updateUser.getGender());
+            response.put("profileImageUrl", updateUser.getProfileImageUrl());
 
             return  ResponseEntity.ok(response);
 
@@ -160,6 +160,20 @@ public class AuthController {
 
         Map<String, Object> response = new HashMap<>();
         response.put("role", session.getAttribute(ROLE_KEY));
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/user_id")
+    public ResponseEntity<?> getuserid(HttpSession session) {
+        String email = (String) session.getAttribute(EMAIL_KEY);
+        if (email == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", "No active session"));
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("userId", session.getAttribute(USER_ID_KEY));
 
         return ResponseEntity.ok(response);
     }
